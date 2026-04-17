@@ -1,5 +1,9 @@
-import math,random
-import pygame
+import math, random, pygame, sys
+pygame.init()
+screen = pygame.display.set_mode((750, 750))
+screen.fill((255, 255, 255))
+pygame.display.set_caption("Sudoku")
+
 """
 This was adapted from a GeeksforGeeks article "Program for Sudoku Generator" by Aarti_Rathi and Ankur Trisal
 https://www.geeksforgeeks.org/program-sudoku-generator/
@@ -13,22 +17,44 @@ class Cell:
         self.screen = screen
         self.sketch = 0
         self.interact = False #for use in board
+        self.square_size = 250
     def set_cell_value(self, value):
         self.value = value
     def set_sketched_value(self, value):
         self.sketch = value
     def draw(self):
-        x, y = self.col * NUMBER + INTERVAL, self.row * NUMBER + INTERVAL #All caps are placeholders
-        cell = pygame.Rect(x, y, WIDTH, HEIGHT) #All caps are placeholders
-        pygame.draw.rect(self.screen, (255, 255, 255), cell, 1)
+        top, bottom = self.row * self.square_size, self.row * self.square_size + self.square_size #All caps are placeholders
+        num_font = pygame.font.Font(None, 100)
+        one_surf = num_font.render('1', 0, (0, 255, 0))
+        one_rect = one_surf.get_rect(center = (top + (self.square_size // 2), bottom - (self.square_size // 2)))
+        two_surf = num_font.render('2', 0, (0, 255, 0))
+        two_rect = two_surf.get_rect(center = (top + (self.square_size // 2), bottom - (self.square_size // 2)))
+        three_surf = num_font.render('3', 0, (0, 255, 0))
+        three_rect = three_surf.get_rect(center = (top + (self.square_size // 2), bottom - (self.square_size // 2)))
+        four_surf = num_font.render('4', 0, (0, 255, 0))
+        four_rect = four_surf.get_rect(center = (top + (self.square_size // 2), bottom - (self.square_size // 2)))
+        five_surf = num_font.render('5', 0, (0, 255, 0))
+        five_rect = five_surf.get_rect(center = (top + (self.square_size // 2), bottom - (self.square_size // 2)))
+        six_surf = num_font.render('6', 0, (0, 255, 0))
+        six_rect = six_surf.get_rect(center = (top + (self.square_size // 2), bottom - (self.square_size // 2)))
+        seven_surf = num_font.render('7', 0, (0, 255, 0))
+        seven_rect = seven_surf.get_rect(center = (top + (self.square_size // 2), bottom - (self.square_size // 2)))
+        eight_surf = num_font.render('8', 0, (0, 255, 0))
+        eight_rect = eight_surf.get_rect(center = (top + (self.square_size // 2), bottom + (self.square_size // 2)))
+        nine_surf = num_font.render('9', 0, (0, 255, 0))
+        nine_rect = nine_surf.get_rect(center = (top + (self.square_size // 2), bottom + (self.square_size // 2)))
         if self.interact:
-            pygame.draw.rect(self.screen, (255, 0, 0), cell, 1)
-        if self.value == 0:
-            pygame.draw.rect(self.screen, (255, 255, 255), cell, 1)
-        if self.value != 0:
-            pass #inserting value into box
-        elif self.sketch != 0:
-            pass
+            screen.blit(one_surf, one_rect)
+        # cell = pygame.Rect(top, bottom, self.square_size, self.square_size) #All caps are placeholders
+        # pygame.draw.rect(self.screen, (255, 255, 255), cell, 1)
+        # if self.interact:
+        #     pygame.draw.rect(self.screen, (255, 0, 0), cell, 1)
+        # if self.value == 0:
+        #     pygame.draw.rect(self.screen, (255, 255, 255), cell, 1)
+        # if self.value != 0:
+        #     pass #inserting value into box
+        # elif self.sketch != 0:
+        #     pass
 
 class SudokuGenerator:
     def __init__(self, row_length, removed_cells):
@@ -234,3 +260,15 @@ def generate_sudoku(size, removed):
     sudoku.remove_cells()
     board = sudoku.get_board()
     return board
+
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            x, y = event.pos
+            row = y // 250
+            col = x // 250
+
+    pygame.display.update()
