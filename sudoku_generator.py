@@ -18,7 +18,7 @@ class Cell:
     def set_sketched_value(self, value):
         self.sketch = value
     def draw(self):
-        x, y = self.col * NUMBER, self.row * NUMBER #All caps are placeholders
+        x, y = self.col * NUMBER + INTERVAL, self.row * NUMBER + INTERVAL #All caps are placeholders
         cell = pygame.Rect(x, y, WIDTH, HEIGHT) #All caps are placeholders
         pygame.draw.rect(self.screen, (255, 255, 255), cell, 1)
         if self.interact:
