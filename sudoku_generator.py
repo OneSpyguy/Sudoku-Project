@@ -5,8 +5,22 @@ This was adapted from a GeeksforGeeks article "Program for Sudoku Generator" by 
 https://www.geeksforgeeks.org/program-sudoku-generator/
 
 """
+class Cell:
+    def __init__(self, value, row, col, screen):
+        self.value = value
+        self.row = row
+        self.col = col
+        self.screen = screen
+        self.sketch = 0
+    def set_cell_value(self, value):
+        self.value = value
+    def set_sketched_value(self, value):
+        self.sketch = value
 
 class SudokuGenerator:
+    def __init__(self, row_length, removed_cells):
+        self.row_length = 9
+        self.removed_cells = removed_cells
     '''
 	create a sudoku board - initialize class variables and set up the 2D board
 	This should initialize:
@@ -22,11 +36,6 @@ class SudokuGenerator:
 	Return:
 	None
     '''
-    def __init__(self, row_length = 9, removed_cells):
-        self.row_length = row_length
-        self.removed_cells = removed_cells
-        self.board = get_board()
-        self.box_length = row_length ** 0.5
 
     '''
 	Returns a 2D python list of numbers which represents the board
