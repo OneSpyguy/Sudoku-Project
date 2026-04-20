@@ -161,7 +161,6 @@ class SudokuGenerator:
         while count > 0:
             row = random.randint(0, self.row_length - 1)
             col = random.randint(0, self.row_length - 1)
-            # Ensure we don't remove the same cell twice [cite: 585, 586]
             if self.board[row][col] != 0:
                 self.board[row][col] = 0
                 count -= 1
