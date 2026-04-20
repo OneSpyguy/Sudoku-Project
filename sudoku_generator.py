@@ -54,6 +54,27 @@ class Cell:
             pygame.draw.rect(screen, (255, 0, 0), ((self.row * self.cell_size + self.cell_size), (self.col * self.cell_size + self.cell_size)), 1)
             screen.blit(one_surf, one_rect)
 
+class Board:
+    def __int__(self, width, height, screen, difficulty):
+
+    def draw(self):
+
+    def select(self, row, col):
+
+    def click(self, x, y):
+
+    def sketch(self, value):
+
+    def place_number(self, value):
+
+    def reset_to_original(self):
+
+    def is_full(self):
+
+    def update_board(self):
+
+    def check_board(self):
+
 ######################### SudokuGenerator Class ############################
 import math
 import random
