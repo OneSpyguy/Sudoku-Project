@@ -29,52 +29,45 @@ class Cell:
         self.sketch = value
 
     def draw(self):
-        top, bottom = self.row * self.cell_size, self.row * self.cell_size + self.cell_size  # All caps are placeholders
-        num_font = pygame.font.Font(None, 80)
-        one_surf = num_font.render('1', 0, (0, 255, 0))
-        one_rect = one_surf.get_rect(center=(top + (self.cell_size // 2), bottom - (self.cell_size // 2)))
-        two_surf = num_font.render('2', 0, (0, 255, 0))
-        two_rect = two_surf.get_rect(center=(top + (self.cell_size // 2), bottom - (self.cell_size // 2)))
-        three_surf = num_font.render('3', 0, (0, 255, 0))
-        three_rect = three_surf.get_rect(center=(top + (self.cell_size // 2), bottom - (self.cell_size // 2)))
-        four_surf = num_font.render('4', 0, (0, 255, 0))
-        four_rect = four_surf.get_rect(center=(top + (self.cell_size // 2), bottom - (self.cell_size // 2)))
-        five_surf = num_font.render('5', 0, (0, 255, 0))
-        five_rect = five_surf.get_rect(center=(top + (self.cell_size // 2), bottom - (self.cell_size // 2)))
-        six_surf = num_font.render('6', 0, (0, 255, 0))
-        six_rect = six_surf.get_rect(center=(top + (self.cell_size // 2), bottom - (self.cell_size // 2)))
-        seven_surf = num_font.render('7', 0, (0, 255, 0))
-        seven_rect = seven_surf.get_rect(center=(top + (self.cell_size // 2), bottom - (self.cell_size // 2)))
-        eight_surf = num_font.render('8', 0, (0, 255, 0))
-        eight_rect = eight_surf.get_rect(center=(top + (self.cell_size // 2), bottom + (self.cell_size // 2)))
-        nine_surf = num_font.render('9', 0, (0, 255, 0))
-        nine_rect = nine_surf.get_rect(center=(top + (self.cell_size // 2), bottom + (self.cell_size // 2)))
+        top, left, bottom, right = self.row * self.cell_size, self.col * self.cell_size, self.cell_size, self.cell_size  # All caps are placeholders
+        pygame.draw.rect(self.screen, (0, 0, 0), (left, top, right, bottom), 1)
+
+        if self.value != 0:
+            num_font = pygame.font.Font(None, 80)
+            num_surf = num_font.render(str(self.value), True, (0, 0, 0))
+            num_rect = num_surf.get_rect(center = (left + self.cell_size // 2, top + self.cell_size // 2))
+            self.screen.blit(num_surf, num_rect)
+
+        if self.sketch != 0:
+            num_font = pygame.font.Font(None, 30)
+            num_surf = num_font.render(str(self.value), True, (0, 0, 0))
+            num_rect = num_surf.get_rect(bottom_left = ((left - 70),(bottom - 70)))
+            self.screen.blit(num_surf, num_rect)
 
         if self.interact:
-            pygame.draw.rect(screen, (255, 0, 0), ((self.row * self.cell_size + self.cell_size), (self.col * self.cell_size + self.cell_size)), 1)
-            screen.blit(one_surf, one_rect)
+            pygame.draw.rect(self.screen, (255, 0, 0), (left, top, right, bottom), 3)
 
 class Board:
     def __int__(self, width, height, screen, difficulty):
-
+        pass
     def draw(self):
-
+        pass
     def select(self, row, col):
-
+        pass
     def click(self, x, y):
-
+        pass
     def sketch(self, value):
-
+        pass
     def place_number(self, value):
-
+        pass
     def reset_to_original(self):
-
+        pass
     def is_full(self):
-
+        pass
     def update_board(self):
-
+        pass
     def check_board(self):
-
+        pass
 ######################### SudokuGenerator Class ############################
 import math
 import random
@@ -189,7 +182,9 @@ def generate_sudoku(size, removed):
     board = sudoku.get_board()
     return board
 
+####################### generating cells #########################
 
+cells = [[Cell(0, j, i, screen) for i in range(9)] for j in range(9)]
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -197,8 +192,10 @@ while True:
             sys.exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
             x, y = event.pos
-            row, row_start = y // 300
-            col, col_start = x // 300
+            row = y // 100
+            col = x // 100
+            row_start = y // 300
+            col_start = x // 300
         if event.type == pygame.KEYDOWN:
             z = event.unicode
 
