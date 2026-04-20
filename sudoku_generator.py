@@ -52,7 +52,23 @@ class Cell:
 
 class Board:
     def __int__(self, width, height, screen, difficulty):
-        pass
+        self.width = width
+        self.height = height
+        self.screen = screen
+        self.difficulty = difficulty
+
+        if difficulty == "easy":
+            removed = 30
+        elif difficulty == "medium":
+            removed = 40
+        else:
+            removed = 50
+
+        self.generator = SudokuGenerator(9, removed)
+        self.generator.fill_values()
+
+        self.cells =
+
     def draw(self):
         pass
     def select(self, row, col):
