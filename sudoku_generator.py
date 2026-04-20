@@ -33,13 +33,13 @@ class Cell:
         pygame.draw.rect(self.screen, (0, 0, 0), (left, top, right, bottom), 1)
 
         if self.value != 0:
-            num_font = pygame.font.Font(None, 80)
+            num_font = pygame.font.Font(None, 70)
             num_surf = num_font.render(str(self.value), True, (0, 0, 0))
             num_rect = num_surf.get_rect(center = (left + self.cell_size // 2, top + self.cell_size // 2))
             self.screen.blit(num_surf, num_rect)
 
         if self.sketch != 0:
-            num_font = pygame.font.Font(None, 30)
+            num_font = pygame.font.Font(None, 20)
             num_surf = num_font.render(str(self.value), True, (0, 0, 0))
             num_rect = num_surf.get_rect(bottom_left = ((left - 70),(bottom - 70)))
             self.screen.blit(num_surf, num_rect)
@@ -78,6 +78,8 @@ class SudokuGenerator:
         self.removed_cells = removed_cells
         self.board = [[0 for _ in range(self.row_length)] for _ in range(self.row_length)]
         self.box_length = int(math.sqrt(self.row_length))
+        #I think self.board should be this:
+        #self.board = [[Cell(0, j, i, screen) for i in range(row_length)] for j in range(row_length)]
 
 
     def get_board(self):
