@@ -81,8 +81,6 @@ class SudokuGenerator:
         self.removed_cells = removed_cells
         self.board = [[0 for _ in range(self.row_length)] for _ in range(self.row_length)]
         self.box_length = int(math.sqrt(self.row_length))
-        #I think self.board should be this:
-        #self.board = [[Cell(0, j, i, screen) for i in range(row_length)] for j in range(row_length)]
 
 
     def get_board(self):
@@ -91,42 +89,43 @@ class SudokuGenerator:
 
     def print_board(self):
         for row in self.board:
-            print(" ".join(map(str, row)))
+            print(row)
 
     def valid_in_row(self, row, num):
-        return num not in self.board[row]
+        if num in self.board[row]:
+            return False
+        return True
 
 
     def valid_in_col(self, col, num):
-        for i in range(self.row_length):
-            if self.board[i][col] == num:
+        for row in range(self.row_length):
+            if self.board[row][col] == num:
                 return False
         return True
 
 
     def valid_in_box(self, row_start, col_start, num):
-        for i in range(row_start, row_start + self.box_length):
-            for j in range(col_start, col_start + self.box_length):
-                if self.board[i][j] == num:
-                    return False #Need a way for boxes to not overlap or position base on chosen box alone
+        for i in range(3):
+            for j in range(3):
+                if self.board[row_start + i][col_start + j] == num:
+                    return False
         return True
 
 
     def is_valid(self, row, col, num):
-        box_row_start = (row // self.box_length) * self.box_length
-        box_col_start = (col // self.box_length) * self.box_length
+        box_row_start = (row // 3) * 3
+        box_col_start = (col // 3) * 3
         return (self.valid_in_row(row, num) and
                 self.valid_in_col(col, num) and
                 self.valid_in_box(box_row_start, box_col_start, num))
 
 
     def fill_box(self, row_start, col_start):
-        nums = list(range(1, self.row_length + 1))
+        nums = list(range(1, 10))
         random.shuffle(nums)
-        for i in range(self.box_length):
-            for j in range(self.box_length):
-                self.board[row_start + i][col_start + j] = nums.pop() #what does this do?
-
+        for i in range(3):
+            for j in range(3):
+                self.board[row_start + i][col_start + j] = nums.pop()
 
     def fill_diagonal(self):
         for i in range(0, self.row_length, self.box_length):
