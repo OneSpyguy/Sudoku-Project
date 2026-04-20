@@ -62,6 +62,40 @@ class Cell:
         # elif self.sketch != 0:
         #     pass
 
+class Board:
+    def __int__(self, width, height, screen, difficulty):
+        self.width = width
+        self.height = height
+        self.screen = screen
+        self.difficulty_map = {"easy": 30, "medium": 40, "hard": 50}
+        self.removed_cells = self.difficulty_map.get(difficulty, 30)
+
+        self.generator = SudokuGenerator(9, self.removed_cells)
+        self.generator.fill_values()
+        self.solution = [row[:] for row in self.generator.get_board()]
+        self.generator.remove_cells()
+        self.initial_board = [row[:] for row in self.generator.get_board()]
+        self.cells = [[Cell(self.initial_board[i][j], i, j, screen) for j in range(9)] for i in range(9)]
+        self.selected_cell = None
+
+    def draw(self):
+
+    def select(self, row, col):
+
+    def click(self, x, y):
+
+    def sketch(self, value):
+
+    def place_number(self, value):
+
+    def reset_to_original(self):
+
+    def is_full(self):
+
+    def update_board(self):
+
+    def check_board(self):
+
 ######################### SudokuGenerator Class ############################
 import math
 import random
