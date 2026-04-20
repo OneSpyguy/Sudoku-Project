@@ -67,7 +67,14 @@ class Board:
         self.generator = SudokuGenerator(9, removed)
         self.generator.fill_values()
 
-        self.cells =
+        self.generator.remove_cells()
+        self.initial_board = [row[:] for row in self.generator.get_board()]
+
+        self.cells = [
+            [Cell(self.initial_board[i][j], i, j, screen) for j in range(9)]
+            for i in range(9)
+        ]
+        self.selected_cell = None
 
     def draw(self):
         pass
