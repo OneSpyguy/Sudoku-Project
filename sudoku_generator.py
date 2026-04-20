@@ -1,7 +1,7 @@
 import math, random, pygame, sys
 
 pygame.init()
-screen = pygame.display.set_mode((750, 750))
+screen = pygame.display.set_mode((900, 900))
 screen.fill((255, 255, 255))
 pygame.display.set_caption("Sudoku")
 
@@ -20,7 +20,7 @@ class Cell:
         self.screen = screen
         self.sketch = 0
         self.interact = False  # for use in board
-        self.square_size = 250
+        self.cell_size = 100
 
     def set_cell_value(self, value):
         self.value = value
@@ -29,39 +29,48 @@ class Cell:
         self.sketch = value
 
     def draw(self):
-        top, bottom = self.row * self.square_size, self.row * self.square_size + self.square_size  # All caps are placeholders
-        num_font = pygame.font.Font(None, 100)
-        one_surf = num_font.render('1', 0, (0, 255, 0))
-        one_rect = one_surf.get_rect(center=(top + (self.square_size // 2), bottom - (self.square_size // 2)))
-        two_surf = num_font.render('2', 0, (0, 255, 0))
-        two_rect = two_surf.get_rect(center=(top + (self.square_size // 2), bottom - (self.square_size // 2)))
-        three_surf = num_font.render('3', 0, (0, 255, 0))
-        three_rect = three_surf.get_rect(center=(top + (self.square_size // 2), bottom - (self.square_size // 2)))
-        four_surf = num_font.render('4', 0, (0, 255, 0))
-        four_rect = four_surf.get_rect(center=(top + (self.square_size // 2), bottom - (self.square_size // 2)))
-        five_surf = num_font.render('5', 0, (0, 255, 0))
-        five_rect = five_surf.get_rect(center=(top + (self.square_size // 2), bottom - (self.square_size // 2)))
-        six_surf = num_font.render('6', 0, (0, 255, 0))
-        six_rect = six_surf.get_rect(center=(top + (self.square_size // 2), bottom - (self.square_size // 2)))
-        seven_surf = num_font.render('7', 0, (0, 255, 0))
-        seven_rect = seven_surf.get_rect(center=(top + (self.square_size // 2), bottom - (self.square_size // 2)))
-        eight_surf = num_font.render('8', 0, (0, 255, 0))
-        eight_rect = eight_surf.get_rect(center=(top + (self.square_size // 2), bottom + (self.square_size // 2)))
-        nine_surf = num_font.render('9', 0, (0, 255, 0))
-        nine_rect = nine_surf.get_rect(center=(top + (self.square_size // 2), bottom + (self.square_size // 2)))
-        if self.interact:
-            screen.blit(one_surf, one_rect)
-        # cell = pygame.Rect(top, bottom, self.square_size, self.square_size) #All caps are placeholders
-        # pygame.draw.rect(self.screen, (255, 255, 255), cell, 1)
-        # if self.interact:
-        #     pygame.draw.rect(self.screen, (255, 0, 0), cell, 1)
-        # if self.value == 0:
-        #     pygame.draw.rect(self.screen, (255, 255, 255), cell, 1)
-        # if self.value != 0:
-        #     pass #inserting value into box
-        # elif self.sketch != 0:
-        #     pass
+        top, left, bottom, right = self.row * self.cell_size, self.col * self.cell_size, self.cell_size, self.cell_size  # All caps are placeholders
+        pygame.draw.rect(self.screen, (0, 0, 0), (left, top, right, bottom), 1)
 
+        if self.interact:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pygame.draw.rect(self.screen, (255, 0, 0), (left, top, right, bottom), 3)
+            if event.type == pygame.KEYDOWN:
+                if self.value != 0:
+                    num_font = pygame.font.Font(None, 70)
+                    num_surf = num_font.render(str(self.value), True, (0, 0, 0))
+                    num_rect = num_surf.get_rect(center = (left + self.cell_size // 2, top + self.cell_size // 2))
+                    self.screen.blit(num_surf, num_rect)
+
+                if self.sketch != 0:
+                    num_font = pygame.font.Font(None, 20)
+                    num_surf = num_font.render(str(self.value), True, (0, 0, 0))
+                    num_rect = num_surf.get_rect(bottom_left = ((left - 70),(bottom - 70)))
+                    self.screen.blit(num_surf, num_rect)
+
+        self.interact = False
+
+class Board:
+    def __int__(self, width, height, screen, difficulty):
+        pass
+    def draw(self):
+        pass
+    def select(self, row, col):
+        pass
+    def click(self, x, y):
+        pass
+    def sketch(self, value):
+        pass
+    def place_number(self, value):
+        pass
+    def reset_to_original(self):
+        pass
+    def is_full(self):
+        pass
+    def update_board(self):
+        pass
+    def check_board(self):
+        pass
 ######################### SudokuGenerator Class ############################
 import math
 import random
@@ -72,6 +81,8 @@ class SudokuGenerator:
         self.removed_cells = removed_cells
         self.board = [[0 for _ in range(self.row_length)] for _ in range(self.row_length)]
         self.box_length = int(math.sqrt(self.row_length))
+        #I think self.board should be this:
+        #self.board = [[Cell(0, j, i, screen) for i in range(row_length)] for j in range(row_length)]
 
 
     def get_board(self):
@@ -97,7 +108,7 @@ class SudokuGenerator:
         for i in range(row_start, row_start + self.box_length):
             for j in range(col_start, col_start + self.box_length):
                 if self.board[i][j] == num:
-                    return False
+                    return False #Need a way for boxes to not overlap or position base on chosen box alone
         return True
 
 
@@ -114,7 +125,7 @@ class SudokuGenerator:
         random.shuffle(nums)
         for i in range(self.box_length):
             for j in range(self.box_length):
-                self.board[row_start + i][col_start + j] = nums.pop()
+                self.board[row_start + i][col_start + j] = nums.pop() #what does this do?
 
 
     def fill_diagonal(self):
@@ -175,6 +186,9 @@ def generate_sudoku(size, removed):
     board = sudoku.get_board()
     return board
 
+####################### generating cells #########################
+
+cells = [[Cell(0, j, i, screen).draw() for i in range(9)] for j in range(9)]
 
 while True:
     for event in pygame.event.get():
@@ -182,8 +196,16 @@ while True:
             pygame.quit()
             sys.exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
+            Cell.interact = True
             x, y = event.pos
-            row = y // 250
-            col = x // 250
+            row = y // 100
+            col = x // 100
+            row_start = y // 300
+            col_start = x // 300
+            Cell(0, row, col, screen).draw()
+        if event.type == pygame.KEYDOWN:
+            Cell.interact = True
+            z = event.key
+            Cell(z, row, col, screen).draw()
 
     pygame.display.update()
