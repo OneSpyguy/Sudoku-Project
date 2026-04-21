@@ -33,20 +33,18 @@ class Cell:
         pygame.draw.rect(self.screen, (0, 0, 0), (left, top, right, bottom), 1)
 
         if self.interact:
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                pygame.draw.rect(self.screen, (255, 0, 0), (left, top, right, bottom), 3)
-            if event.type == pygame.KEYDOWN:
-                if self.value != 0:
-                    num_font = pygame.font.Font(None, 70)
-                    num_surf = num_font.render(str(self.value), True, (0, 0, 0))
-                    num_rect = num_surf.get_rect(center = (left + self.cell_size // 2, top + self.cell_size // 2))
-                    self.screen.blit(num_surf, num_rect)
+            pygame.draw.rect(self.screen, (255, 0, 0), (left, top, right, bottom), 3)
+            if self.value != 0:
+                num_font = pygame.font.Font(None, 70)
+                num_surf = num_font.render(str(self.value), True, (0, 0, 0))
+                num_rect = num_surf.get_rect(center = (left + self.cell_size // 2, top + self.cell_size // 2))
+                self.screen.blit(num_surf, num_rect)
 
-                if self.sketch != 0:
-                    num_font = pygame.font.Font(None, 20)
-                    num_surf = num_font.render(str(self.value), True, (0, 0, 0))
-                    num_rect = num_surf.get_rect(bottom_left = ((left - 70),(bottom - 70)))
-                    self.screen.blit(num_surf, num_rect)
+            if self.sketch != 0:
+                num_font = pygame.font.Font(None, 20)
+                num_surf = num_font.render(str(self.value), True, (0, 0, 0))
+                num_rect = num_surf.get_rect(bottom_left = ((left - 70),(bottom - 70)))
+                self.screen.blit(num_surf, num_rect)
 
         self.interact = False
 
@@ -232,16 +230,22 @@ while True:
             pygame.quit()
             sys.exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
-            Cell.interact = True
+            row_start = y // 300
+            col_start = x // 300
             x, y = event.pos
             row = y // 100
             col = x // 100
-            row_start = y // 300
-            col_start = x // 300
-            Cell(0, row, col, screen).draw()
+            for r in range(9):
+                for c in range(9):
+                    cells[r][c].interact = False
+            cells[row][col].interact = True
         if event.type == pygame.KEYDOWN:
-            Cell.interact = True
-            z = event.key
-            Cell(z, row, col, screen).draw()
+            x, y = pygame.mouse.get_pos()
+            z = event.unicode()
+            if z.isdigit():
+                cells[row][col].value = int(z)
 
+    for row in cells:
+        for cell in row:
+            cell.draw()
     pygame.display.update()
