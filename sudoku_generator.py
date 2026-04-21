@@ -41,7 +41,7 @@ class Cell:
         if self.sketch != 0:
             num_font = pygame.font.Font(None, 20)
             num_surf = num_font.render(str(self.value), True, (0, 0, 0))
-            num_rect = num_surf.get_rect(bottom_left = ((left - 70),(bottom - 70)))
+            num_rect = num_surf.get_rect(bottomleft = ((left - 70),(bottom - 70)))
             self.screen.blit(num_surf, num_rect)
 
         if self.interact:
@@ -66,6 +66,7 @@ class Board:
 
         self.generator.remove_cells()
         self.initial_board = [row[:] for row in self.generator.get_board()]
+        self.solution = [row[:] for row in self.generator.get_board()]
 
         self.cells = [
             [Cell(self.initial_board[i][j], i, j, screen) for j in range(9)]
@@ -277,7 +278,10 @@ while True:
         if event.type == pygame.KEYDOWN and current_board.selected_cell:
             x, y = pygame.mouse.get_pos()
             z = event.unicode
-            if z.isdigit():
-                pass
+            if z.isdigit() = i for i in range(1, 10)
+            current_board.check_board()
+            current_board.sketch(z) #check input for 1-9, also check for user enter input
+            current_board.place_number(z)
+
 
     pygame.display.update()
