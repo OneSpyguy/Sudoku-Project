@@ -78,7 +78,6 @@ class Board:
         for i in range(10):
 
         thickness = 4 if i % 3 == 0 else 1
-
         pygame.draw.line(self.screen, (0, 0, 0), (i * 100, 0), (i * 100, 900), thickness)
         pygame.draw.line(self.screen, (0, 0, 0), (0, i * 100), (900, i * 100), thickness)
 
