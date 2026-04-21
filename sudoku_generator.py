@@ -259,10 +259,6 @@ def generate_sudoku(size, removed):
 
 ####################### generating cells #########################
 
-# cells = [[Cell(0, j, i, screen).draw() for i in range(9)] for j in range(9)]
-current_board = Board(900, 900, screen, "easy")
-
-# cells = [[Cell(0, j, i, screen).draw() for i in range(9)] for j in range(9)]
 current_board = Board(900, 900, screen, "easy")
 
 while True:
