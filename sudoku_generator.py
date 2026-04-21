@@ -278,10 +278,11 @@ while True:
         if event.type == pygame.KEYDOWN and current_board.selected_cell:
             x, y = pygame.mouse.get_pos()
             z = event.unicode
-            if z.isdigit() = i for i in range(1, 10)
-            current_board.check_board()
-            current_board.sketch(z) #check input for 1-9, also check for user enter input
-            current_board.place_number(z)
+            if z.isdigit():
+                if 1 <= z.isdigit <= 9:
+                    current_board.check_board()
+                    current_board.sketch(z) #check input for 1-9, also check for user enter input
+                    current_board.place_number(z)
 
 
     pygame.display.update()
