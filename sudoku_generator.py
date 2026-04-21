@@ -131,9 +131,20 @@ class Board:
                 self.generator.board[i][j] = self.cells[i][j].value
 
     def find_empty(self):
-        
+        for i in range(9):
+            for j in range(9):
+                if self.cells[i][j].value == 0:
+                    return (i, j)
+        return None
+
     def check_board(self):
-        pass
+        for i in range(9):
+            for j in range(9):
+                if self.cells[i][j].value != self.solution[i][j]:
+                    return False
+        return True
+
+
 ######################### SudokuGenerator Class ############################
 import math
 import random
