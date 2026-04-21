@@ -77,9 +77,23 @@ class Board:
         self.selected_cell = None
 
     def draw(self):
-        pass
+        for i in range(10):
+
+        thickness = 4 if i % 3 == 0 else 1
+
+        pygame.draw.line(self.screen, (0, 0, 0), (i * 100, 0), (i * 100, 900), thickness)
+        pygame.draw.line(self.screen, (0, 0, 0), (0, i * 100), (900, i * 100), thickness)
+
+        for row in self.cells:
+            for cell in row:
+                cell.draw()
+
     def select(self, row, col):
-        pass
+        if self.selected_cell:
+            self.selected_cell.interact = False
+
+        self.selected_cell.interact = True
+
     def click(self, x, y):
         pass
     def sketch(self, value):
