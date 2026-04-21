@@ -46,8 +46,6 @@ class Cell:
                 num_rect = num_surf.get_rect(bottom_left = ((left - 70),(bottom - 70)))
                 self.screen.blit(num_surf, num_rect)
 
-        self.interact = False
-
 class Board:
     def __int__(self, width, height, screen, difficulty):
         self.width = width
@@ -231,7 +229,4 @@ while True:
             if z.isdigit():
                 cells[row][col].value = int(z)
 
-    for row in cells:
-        for cell in row:
-            cell.draw()
     pygame.display.update()
