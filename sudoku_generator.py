@@ -282,7 +282,7 @@ while True:
                 if 1 <= z.isdigit <= 9:
                     current_board.check_board()
                     current_board.sketch(z) #check input for 1-9, also check for user enter input
-                    current_board.place_number(z)
+                    current_board.place_number(z) #...
 
 
     pygame.display.update()
