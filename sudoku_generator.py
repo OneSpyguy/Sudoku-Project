@@ -267,9 +267,9 @@ while True:
             pygame.quit()
             sys.exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
+            x, y = event.pos
             row_start = y // 300
             col_start = x // 300
-            x, y = event.pos
             row = y // 100
             col = x // 100
             for r in range(9):
