@@ -73,23 +73,76 @@ class Board:
         self.selected_cell = None
 
     def draw(self):
-        pass
+        for i in range(10):
+            thickness = 4 if i % 3 == 0 else 1
+            pygame.draw.line(self.screen, (0, 0, 0), (i * 100, 0), (i * 100, 900), thickness)
+            pygame.draw.line(self.screen, (0, 0, 0), (0, i * 100), (900, i * 100), thickness)
+
+        for row in self.cells:
+            for cell in row:
+                cell.draw()
+
     def select(self, row, col):
-        pass
+        if self.selected_cell:
+            self.selected_cell.interact = False
+
+        self.selected_cell = self.cells[row][col]
+        self.selected_cell.interact = True
+
     def click(self, x, y):
-        pass
+        if 0 <= x < 900 and 0 <= y < 900:
+            return (y // 100, x // 100)
+        return None
+
+    def clear(self):
+        if self.selected_cell:
+            if self.initial_board[self.selected_cell.row][self.selected_cell.col] == 0:
+                self.selected_cell.set_cell_value(0)
+                self.selected_cell.set_sketched_value(0)
+
     def sketch(self, value):
-        pass
+        if self.selected_cell:
+            if self.initial_board[self.selected_cell.row][self.selected_cell.col] == 0:
+                self.selected_cell.set_sketched_value(value)
+
     def place_number(self, value):
-        pass
+        if self.selected_cell:
+            if self.initial_board[self.selected_cell.row][self.selected_cell.col] == 0:
+                self.selected_cell.set_cell_value(value)
+
     def reset_to_original(self):
-        pass
+        for i in range(9):
+            for j in range(9):
+                self.cells[i][j].set_cell_value(self.initial_board[i][j])
+                self.cells[i][j].set_sketched_value(0)
+
     def is_full(self):
-        pass
+        for row in self.cells:
+            for cell in row:
+                if cell.value == 0:
+                    return False
+        return True
+
     def update_board(self):
-        pass
+        for i in range(9):
+            for j in range(9):
+                self.generator.board[i][j] = self.cells[i][j].value
+
+    def find_empty(self):
+        for i in range(9):
+            for j in range(9):
+                if self.cells[i][j].value == 0:
+                    return (i, j)
+        return None
+
     def check_board(self):
-        pass
+        for i in range(9):
+            for j in range(9):
+                if self.cells[i][j].value != self.solution[i][j]:
+                    return False
+        return True
+
+
 ######################### SudokuGenerator Class ############################
 import math
 import random
