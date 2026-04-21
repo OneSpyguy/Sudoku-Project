@@ -47,7 +47,7 @@ class Cell:
                 self.screen.blit(num_surf, num_rect)
 
 class Board:
-    def __int__(self, width, height, screen, difficulty):
+    def __init__(self, width, height, screen, difficulty):
         self.width = width
         self.height = height
         self.screen = screen
@@ -259,24 +259,22 @@ def generate_sudoku(size, removed):
 
 ####################### generating cells #########################
 
-cells = [[Cell(0, j, i, screen).draw() for i in range(9)] for j in range(9)]
+# cells = [[Cell(0, j, i, screen).draw() for i in range(9)] for j in range(9)]
+current_board = Board(900, 900, screen, "easy")
 
 while True:
+    screen.fill((255, 255, 255))
+    current_board.draw()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
             x, y = event.pos
-            row_start = y // 300
-            col_start = x // 300
-            row = y // 100
-            col = x // 100
-            for r in range(9):
-                for c in range(9):
-                    cells[r][c].interact = False
-            cells[row][col].interact = True
-        if event.type == pygame.KEYDOWN:
+            coords = current_board.click(x, y)
+            if coords:
+                current_board.select(coors[0], coords[1])
+        if event.type == pygame.KEYDOWN and current_board.selected_cell:
             x, y = pygame.mouse.get_pos()
             z = event.unicode()
             if z.isdigit():
