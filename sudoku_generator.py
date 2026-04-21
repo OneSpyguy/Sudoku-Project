@@ -32,19 +32,20 @@ class Cell:
         top, left, bottom, right = self.row * self.cell_size, self.col * self.cell_size, self.cell_size, self.cell_size  # All caps are placeholders
         pygame.draw.rect(self.screen, (0, 0, 0), (left, top, right, bottom), 1)
 
+        if self.value != 0:
+            num_font = pygame.font.Font(None, 70)
+            num_surf = num_font.render(str(self.value), True, (0, 0, 0))
+            num_rect = num_surf.get_rect(center = (left + self.cell_size // 2, top + self.cell_size // 2))
+            self.screen.blit(num_surf, num_rect)
+
+        if self.sketch != 0:
+            num_font = pygame.font.Font(None, 20)
+            num_surf = num_font.render(str(self.value), True, (0, 0, 0))
+            num_rect = num_surf.get_rect(bottom_left = ((left - 70),(bottom - 70)))
+            self.screen.blit(num_surf, num_rect)
+
         if self.interact:
             pygame.draw.rect(self.screen, (255, 0, 0), (left, top, right, bottom), 3)
-            if self.value != 0:
-                num_font = pygame.font.Font(None, 70)
-                num_surf = num_font.render(str(self.value), True, (0, 0, 0))
-                num_rect = num_surf.get_rect(center = (left + self.cell_size // 2, top + self.cell_size // 2))
-                self.screen.blit(num_surf, num_rect)
-
-            if self.sketch != 0:
-                num_font = pygame.font.Font(None, 20)
-                num_surf = num_font.render(str(self.value), True, (0, 0, 0))
-                num_rect = num_surf.get_rect(bottom_left = ((left - 70),(bottom - 70)))
-                self.screen.blit(num_surf, num_rect)
 
 class Board:
     def __init__(self, width, height, screen, difficulty):
@@ -272,11 +273,11 @@ while True:
             x, y = event.pos
             coords = current_board.click(x, y)
             if coords:
-                current_board.select(coors[0], coords[1])
+                current_board.select(coords[0], coords[1])
         if event.type == pygame.KEYDOWN and current_board.selected_cell:
             x, y = pygame.mouse.get_pos()
-            z = event.unicode()
+            z = event.unicode
             if z.isdigit():
-                cells[row][col].value = int(z)
+                pass
 
     pygame.display.update()
