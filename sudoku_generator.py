@@ -295,6 +295,8 @@ def draw_game_start(screen):
 level = draw_game_start(screen)
 current_board = Board(900, 900, screen, level)
 while True:
+    button_for_options = pygame.font.Font(None, 50)
+    screen.blit(button_for_options.render("Reset", True, (255, 255, 255)), ())
     screen.fill((255, 255, 255))
     current_board.draw()
     for event in pygame.event.get():
