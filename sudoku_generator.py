@@ -39,7 +39,7 @@ class Cell:
 
         if self.sketch != 0:
             num_font = pygame.font.Font(None, 20)
-            num_surf = num_font.render(str(self.value), True, (0, 0, 0))
+            num_surf = num_font.render(str(self.sketch), True, (0, 0, 0))
             num_rect = num_surf.get_rect(bottomleft = ((left - 70),(bottom - 70)))
             self.screen.blit(num_surf, num_rect)
 
