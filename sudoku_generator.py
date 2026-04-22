@@ -117,6 +117,18 @@ class Board:
             if self.initial_board[self.selected_cell.row][self.selected_cell.col] == 0:
                 self.selected_cell.set_cell_value(value)
 
+    def move_selection(self, direction):
+        if self.selected_cell:
+            row, col = self.selected_cell.row, self.selected_cell.col
+            if direction == "up" and row > 0:
+                self.select(row - 1, col)
+            elif direction == "down" and row < 8:
+                self.select(row + 1, col)
+            elif direction == "left" and col > 0:
+                self.select(row, col - 1)
+            elif direction == "right" and col < 8:
+                self.select(row, col + 1)
+
     def reset_to_original(self):
         for i in range(9):
             for j in range(9):
@@ -331,13 +343,14 @@ while True:
             sys.exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
             if reset_box.collidepoint(event.pos):
-                pass
-            if restart_box.collidepoint(event.pos):
                 current_board.reset_to_original()
-                draw_game_start(screen)
-            if exit_box.collidepoint(event.pos):
+            elif restart_box.collidepoint(event.pos):
+                level = draw_game_start(screen)
+                current_board = Board(900, 900, screen, level)
+            elif exit_box.collidepoint(event.pos):
                 pygame.quit()
                 sys.exit()
+
             x, y = event.pos
             coords = current_board.click(x, y)
             if coords:
@@ -354,6 +367,15 @@ while True:
                             print("Incorrect Board")
             elif event.unicode.isdigit() and 1 <= int(event.unicode) <= 9:
                 current_board.sketch(int(event.unicode))
+
+            elif event.key == pygame.K_UP:
+                current_board.move_selection("up")
+            elif event.key == pygame.K_DOWN:
+                current_board.move_selection("down")
+            elif event.key == pygame.K_LEFT:
+                current_board.move_selection("left")
+            elif event.key == pygame.K_RIGHT:
+                current_board.move_selection("right")
 
             # x, y = pygame.mouse.get_pos()
             # z = event.unicode
