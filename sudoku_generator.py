@@ -297,6 +297,10 @@ def draw_game_start(screen):
 level = draw_game_start(screen)
 current_board = Board(900, 900, screen, level)
 while True:
+    button_for_options = pygame.font.Font(None, 50)
+    screen.blit(button_for_options.render("Reset", True, (255, 255, 255)), (150, 950))
+    screen.blit(button_for_options.render("Restart", True, (255, 255, 255)), (380, 950))
+    screen.blit(button_for_options.render("Exit", True, (255, 255, 255)), (650, 950))
     screen.fill((255, 255, 255))
     current_board.draw()
     for event in pygame.event.get():
@@ -313,11 +317,11 @@ while True:
             x, y = pygame.mouse.get_pos()
             z = event.unicode
             if z.isdigit():
-                if 1 <= z.isdigit <= 9:
+                if z.isdigit() and 1 <= int(z) <= 9:
                     current_board.check_board()
                     current_board.sketch(z) #check input for 1-9, also check for user input 'enter' or 'return' before commiting a value
-                    current_board.place_number(z)
+                    if event.key == pygame.K_RETURN:
+                        current_board.place_number(z)
 
 
     pygame.display.update()
-    # pygame.K_RETURN
