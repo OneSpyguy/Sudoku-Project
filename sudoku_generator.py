@@ -39,7 +39,7 @@ class Cell:
 
         if self.sketch != 0:
             num_font = pygame.font.Font(None, 20)
-            num_surf = num_font.render(str(self.value), True, (0, 0, 0))
+            num_surf = num_font.render(str(self.sketch), True, (0, 0, 0))
             num_rect = num_surf.get_rect(bottomleft = ((left - 70),(bottom - 70)))
             self.screen.blit(num_surf, num_rect)
 
@@ -68,7 +68,6 @@ class Board:
 
         self.generator.remove_cells()
         self.initial_board = [row[:] for row in self.generator.get_board()]
-        self.solution = [row[:] for row in self.generator.get_board()]
 
         self.cells = [
             [Cell(self.initial_board[i][j], i, j, screen) for j in range(9)]
