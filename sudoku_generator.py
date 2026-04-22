@@ -265,6 +265,8 @@ def generate_sudoku(size, removed):
 def draw_game_start(screen):
     screen.fill((255, 255, 255))
 
+    font = pygame.font.Font(None, 80)
+
     easy = pygame.Rect(100, 500, 200, 80)
     medium = pygame.Rect(350, 500, 200, 80)
     hard = pygame.Rect(600, 500, 200, 80)
@@ -307,6 +309,7 @@ while True:
             if coords:
                 current_board.select(coords[0], coords[1])
         if event.type == pygame.KEYDOWN and current_board.selected_cell:
+
             x, y = pygame.mouse.get_pos()
             z = event.unicode
             if z.isdigit():
