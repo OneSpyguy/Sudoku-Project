@@ -28,8 +28,12 @@ class Cell:
         self.sketch = value
 
     def draw(self):
-        top, left, bottom, right = self.row * self.cell_size, self.col * self.cell_size, self.cell_size, self.cell_size  # All caps are placeholders
-        pygame.draw.rect(self.screen, (0, 0, 0), (left, top, right, bottom), 1)
+        # top, left, bottom, right = self.row * self.cell_size, self.col * self.cell_size, self.cell_size, self.cell_size  # All caps are placeholders
+        # pygame.draw.rect(self.screen, (0, 0, 0), (left, top, right, bottom), 1)
+        top = self.row * self.cell_size
+        left = self.col * self.cell_size
+
+        pygame.draw.rect(self.screen, (0, 0, 0), (left, top, self.cell_size, self.cell_size), 1)
 
         if self.value != 0:
             num_font = pygame.font.Font(None, 70)
@@ -38,13 +42,13 @@ class Cell:
             self.screen.blit(num_surf, num_rect)
 
         if self.sketch != 0:
-            num_font = pygame.font.Font(None, 20)
-            num_surf = num_font.render(str(self.sketch), True, (0, 0, 0))
-            num_rect = num_surf.get_rect(bottomleft = ((left - 70),(bottom - 70)))
+            num_font = pygame.font.Font(None, 50)
+            num_surf = num_font.render(str(self.sketch), True, (230, 230, 230))
+            num_rect = num_surf.get_rect(bottomright = ((left + self.cell_size - 5), ((top + self.cell_size) - 5)))
             self.screen.blit(num_surf, num_rect)
 
         if self.interact:
-            pygame.draw.rect(self.screen, (255, 0, 0), (left, top, right, bottom), 3)
+            pygame.draw.rect(self.screen, (255, 0, 0), (left, top, self.cell_size, self.cell_size), 3)
 
 class Board:
     def __init__(self, width, height, screen, difficulty):
@@ -300,31 +304,57 @@ def draw_game_start(screen):
 level = draw_game_start(screen)
 current_board = Board(900, 900, screen, level)
 while True:
-    button_for_options = pygame.font.Font(None, 50)
-    screen.blit(button_for_options.render("Reset", True, (255, 255, 255)), (150, 950))
-    screen.blit(button_for_options.render("Restart", True, (255, 255, 255)), (380, 950))
-    screen.blit(button_for_options.render("Exit", True, (255, 255, 255)), (650, 950))
     screen.fill((255, 255, 255))
     current_board.draw()
+    button_for_options = pygame.font.Font(None, 50)
+    reset_text = button_for_options.render("Reset", True, (255, 255, 255))
+    restart_text = button_for_options.render("Restart", True, (255, 255, 255))
+    exit_text = button_for_options.render("Exit", True, (255, 255, 255))
+    reset_box = pygame.Rect(100, 920, 200, 60)
+    restart_box = pygame.Rect(350, 920, 200, 60)
+    exit_box = pygame.Rect(600, 920, 200, 60)
+    pygame.draw.rect(screen, (255, 165, 0), reset_box)
+    pygame.draw.rect(screen, (255, 165, 0), restart_box)
+    pygame.draw.rect(screen, (255, 165, 0), exit_box)
+    screen.blit(reset_text, reset_text.get_rect(center = reset_box.center))
+    screen.blit(restart_text, restart_text.get_rect(center = restart_box.center))
+    screen.blit(exit_text, exit_text.get_rect(center = exit_box.center))
+
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
+            if reset_box.collidepoint(event.pos):
+                pass
+            if restart_box.collidepoint(event.pos):
+                draw_game_start(screen)
+            if exit_box.collidepoint(event.pos):
+                pygame.quit()
+                sys.exit()
             x, y = event.pos
             coords = current_board.click(x, y)
             if coords:
                 current_board.select(coords[0], coords[1])
         if event.type == pygame.KEYDOWN and current_board.selected_cell:
+            if event.key == pygame.K_RETURN:
+                if current_board.selected_cell.sketch != 0:
+                    current_board.selected_cell.set_cell_value(current_board.selected_cell.sketch)
+                    current_board.selected_cell.set_sketched_value(0)
+                    if current_board.check_board():
+                        print("Solved!")
+            elif event.unicode.isdigit() and 1 <= int(event.unicode) <= 9:
+                current_board.sketch(int(event.unicode))
 
-            x, y = pygame.mouse.get_pos()
-            z = event.unicode
-            if z.isdigit():
-                if z.isdigit() and 1 <= int(z) <= 9:
-                    current_board.check_board()
-                    current_board.sketch(z) #check input for 1-9, also check for user input 'enter' or 'return' before commiting a value
-                    if event.key == pygame.K_RETURN:
-                        current_board.place_number(z)
+            # x, y = pygame.mouse.get_pos()
+            # z = event.unicode
+            # if z.isdigit():
+            #     if z.isdigit() and 1 <= int(z) <= 9:
+            #         current_board.check_board()
+            #         current_board.sketch(z) #check input for 1-9, also check for user input 'enter' or 'return' before commiting a value
+            #         if event.key == pygame.K_RETURN:
+            #             current_board.place_number(z)
 
 
     pygame.display.update()
