@@ -11,7 +11,6 @@ https://www.geeksforgeeks.org/program-sudoku-generator/
 
 """
 
-
 class Cell:
     def __init__(self, value, row, col, screen):
         self.value = value
@@ -63,6 +62,9 @@ class Board:
 
         self.generator = SudokuGenerator(9, removed)
         self.generator.fill_values()
+        # CHANGES
+        full_board = self.generator.get_board()
+        self.solution = [row[:] for row in full_board]
 
         self.generator.remove_cells()
         self.initial_board = [row[:] for row in self.generator.get_board()]
@@ -259,10 +261,39 @@ def generate_sudoku(size, removed):
     board = sudoku.get_board()
     return board
 
-####################### generating cells #########################
+####################### game menu #########################
+def draw_game_start(screen):
+    screen.fill((255, 255, 255))
 
-current_board = Board(900, 900, screen, "easy")
+    easy = pygame.Rect(100, 500, 200, 80)
+    medium = pygame.Rect(350, 500, 200, 80)
+    hard = pygame.Rect(600, 500, 200, 80)
+    pygame.draw.rect(screen, (255, 165, 0), easy)
+    pygame.draw.rect(screen, (255, 165, 0), medium)
+    pygame.draw.rect(screen, (255, 165, 0), hard)
 
+    button_for_level = pygame.font.Font(None, 50)
+    screen.blit(button_for_level.render("EASY", True, (255, 255, 255)), (150, 525))
+    screen.blit(button_for_level.render("MEDIUM", True, (255, 255, 255)), (380, 525))
+    screen.blit(button_for_level.render("HARD", True, (255, 255, 255)), (650, 525))
+
+    pygame.display.update()
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if easy.collidepoint(event.pos):
+                    return "easy"
+                if medium.collidepoint(event.pos):
+                    return "medium"
+                if hard.collidepoint(event.pos):
+                    return "hard"
+
+
+level = draw_game_start(screen)
+current_board = Board(900, 900, screen, level)
 while True:
     screen.fill((255, 255, 255))
     current_board.draw()
