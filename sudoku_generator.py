@@ -315,7 +315,10 @@ def draw_game_start(screen):
 
 
 def draw_end_screen(screen, message):
-    pass
+    font = pygame.font.Font(None, 80)
+    font2 = pygame.font.Font(None, 60)
+    screen.fill((250, 249, 246))
+    result =
 
 level = draw_game_start(screen)
 current_board = Board(900, 900, screen, level)
@@ -367,7 +370,6 @@ while True:
                             print("Incorrect Board")
             elif event.unicode.isdigit() and 1 <= int(event.unicode) <= 9:
                 current_board.sketch(int(event.unicode))
-
             elif event.key == pygame.K_UP:
                 current_board.move_selection("up")
             elif event.key == pygame.K_DOWN:
