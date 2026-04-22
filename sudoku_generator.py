@@ -2,7 +2,7 @@ import math, random, pygame, sys
 
 pygame.init()
 screen = pygame.display.set_mode((900, 1000))
-screen.fill((255, 255, 255))
+screen.fill((250, 249, 246))
 pygame.display.set_caption("Sudoku")
 
 """
