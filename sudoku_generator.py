@@ -314,12 +314,11 @@ while True:
             x, y = pygame.mouse.get_pos()
             z = event.unicode
             if z.isdigit():
-                if 1 <= z.isdigit() <= 9:
+                if z.isdigit() and 1 <= int(z) <= 9:
                     current_board.check_board()
                     current_board.sketch(z) #check input for 1-9, also check for user input 'enter' or 'return' before commiting a value
-                    if event.type == pygame.K_RETURN:
+                    if event.key == pygame.K_RETURN:
                         current_board.place_number(z)
 
 
     pygame.display.update()
-    # pygame.K_RETURN
