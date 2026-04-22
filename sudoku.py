@@ -3,7 +3,6 @@ import sys
 
 
 
- HEAD
 TITLE_FONT = pygame.font.Font(None,100)
 BUTTON_FONT = pygame.font.Font(None,50)
 GAME_OVER_FONT = pygame.font.Font(None, 120)
@@ -176,6 +175,6 @@ elif current_state == 'won' or current_state == 'lost':
 
     pygame.display.update()
 
-If __name__ == "__main__":
+if __name__ == "__main__":
 main()
 
