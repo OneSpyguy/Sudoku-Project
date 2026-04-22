@@ -329,6 +329,7 @@ while True:
             if reset_box.collidepoint(event.pos):
                 pass
             if restart_box.collidepoint(event.pos):
+                current_board.reset_to_original()
                 draw_game_start(screen)
             if exit_box.collidepoint(event.pos):
                 pygame.quit()
