@@ -1,7 +1,7 @@
 import math, random, pygame, sys
 
 pygame.init()
-screen = pygame.display.set_mode((900, 900))
+screen = pygame.display.set_mode((900, 1000))
 screen.fill((255, 255, 255))
 pygame.display.set_caption("Sudoku")
 
@@ -263,7 +263,13 @@ def generate_sudoku(size, removed):
 
 ####################### game menu #########################
 def draw_game_start(screen):
+    font = pygame.font.Font(None, 80)
+    font2 = pygame.font.Font(None, 60)
     screen.fill((255, 255, 255))
+    welcome = font.render("Welcome to Sudoku", True, (0,0,0))
+    pick = font2.render("Select Game Mode:", True, (0, 0, 0))
+    screen.blit(welcome, welcome.get_rect(center=(450, 200)))
+    screen.blit(pick, pick.get_rect(center=(450, 400)))
 
     easy = pygame.Rect(100, 500, 200, 80)
     medium = pygame.Rect(350, 500, 200, 80)
@@ -311,6 +317,7 @@ while True:
             if coords:
                 current_board.select(coords[0], coords[1])
         if event.type == pygame.KEYDOWN and current_board.selected_cell:
+
             x, y = pygame.mouse.get_pos()
             z = event.unicode
             if z.isdigit():
