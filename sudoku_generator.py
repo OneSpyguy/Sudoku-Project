@@ -360,7 +360,7 @@ while True:
                 if current_board.selected_cell.sketch != 0:
                     current_board.selected_cell.set_cell_value(current_board.selected_cell.sketch)
                     current_board.selected_cell.set_sketched_value(0)
-                    if current_board.if_full():
+                    if current_board.is_full():
                         if current_board.check_board():
                             print("Solved!")
                         else:
@@ -376,15 +376,6 @@ while True:
                 current_board.move_selection("left")
             elif event.key == pygame.K_RIGHT:
                 current_board.move_selection("right")
-
-            # x, y = pygame.mouse.get_pos()
-            # z = event.unicode
-            # if z.isdigit():
-            #     if z.isdigit() and 1 <= int(z) <= 9:
-            #         current_board.check_board()
-            #         current_board.sketch(z) #check input for 1-9, also check for user input 'enter' or 'return' before commiting a value
-            #         if event.key == pygame.K_RETURN:
-            #             current_board.place_number(z)
 
 
     pygame.display.update()
