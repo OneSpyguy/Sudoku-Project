@@ -68,7 +68,6 @@ class Board:
 
         self.generator.remove_cells()
         self.initial_board = [row[:] for row in self.generator.get_board()]
-        self.solution = [row[:] for row in self.generator.get_board()]
 
         self.cells = [
             [Cell(self.initial_board[i][j], i, j, screen) for j in range(9)]
