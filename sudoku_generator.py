@@ -287,6 +287,7 @@ def draw_game_start(screen):
     screen.blit(button_for_level.render("HARD", True, (255, 255, 255)), (650, 525))
 
     pygame.display.update()
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -300,6 +301,9 @@ def draw_game_start(screen):
                 if hard.collidepoint(event.pos):
                     return "hard"
 
+
+def draw_end_screen(screen, message):
+    pass
 
 level = draw_game_start(screen)
 current_board = Board(900, 900, screen, level)
@@ -343,8 +347,11 @@ while True:
                 if current_board.selected_cell.sketch != 0:
                     current_board.selected_cell.set_cell_value(current_board.selected_cell.sketch)
                     current_board.selected_cell.set_sketched_value(0)
-                    if current_board.check_board():
-                        print("Solved!")
+                    if current_board.if_full():
+                        if current_board.check_board():
+                            print("Solved!")
+                        else:
+                            print("Incorrect Board")
             elif event.unicode.isdigit() and 1 <= int(event.unicode) <= 9:
                 current_board.sketch(int(event.unicode))
 
