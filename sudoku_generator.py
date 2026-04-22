@@ -314,11 +314,22 @@ def draw_game_start(screen):
                     return "hard"
 
 
-def draw_end_screen(screen, message):
+def draw_end_screen(screen):
     font = pygame.font.Font(None, 80)
     font2 = pygame.font.Font(None, 60)
     screen.fill((250, 249, 246))
-    result =
+    if current_board.check_board():
+        result = font.render("Game won!", True, (255, 255, 255))
+        option = font2.render("Exit", True, (255, 255, 255))
+        screen.blit(result, result.get_rect(center = (450, 200)))
+        screen.blit(option, option.get_rect(center = (400, 400)))
+
+    else:
+        result = font.render("Game over :(", True, (255, 255, 255))
+        option = font2.render("Restart", True, (255, 255, 255))
+        screen.blit(result, result.get_rect(center = (450, 200)))
+        screen.blit(option, option.get_rect(center = (400, 400)))
+
 
 level = draw_game_start(screen)
 current_board = Board(900, 900, screen, level)
@@ -364,10 +375,7 @@ while True:
                     current_board.selected_cell.set_cell_value(current_board.selected_cell.sketch)
                     current_board.selected_cell.set_sketched_value(0)
                     if current_board.is_full():
-                        if current_board.check_board():
-                            print("Solved!")
-                        else:
-                            print("Incorrect Board")
+                        draw_end_screen(screen)
             elif event.unicode.isdigit() and 1 <= int(event.unicode) <= 9:
                 current_board.sketch(int(event.unicode))
             elif event.key == pygame.K_UP:
