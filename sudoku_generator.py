@@ -265,7 +265,7 @@ def generate_sudoku(size, removed):
 def draw_game_start(screen):
     font = pygame.font.Font(None, 80)
     font2 = pygame.font.Font(None, 60)
-    screen.fill((255, 255, 255))
+    screen.fill((250, 249, 246))
     welcome = font.render("Welcome to Sudoku", True, (0,0,0))
     pick = font2.render("Select Game Mode:", True, (0, 0, 0))
     screen.blit(welcome, welcome.get_rect(center=(450, 200)))
