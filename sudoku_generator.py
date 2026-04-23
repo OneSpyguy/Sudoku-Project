@@ -314,21 +314,38 @@ def draw_game_start(screen):
                     return "hard"
 
 
-def draw_end_screen(screen):
+def draw_end_screen(screen, outcome):
     font = pygame.font.Font(None, 80)
     font2 = pygame.font.Font(None, 60)
     screen.fill((250, 249, 246))
-    if current_board.check_board():
-        result = font.render("Game won!", True, (255, 255, 255))
-        option = font2.render("Exit", True, (255, 255, 255))
-        screen.blit(result, result.get_rect(center = (450, 200)))
-        screen.blit(option, option.get_rect(center = (400, 400)))
+    if outcome:
+        result = font.render("Game won!", True, (0, 0, 0))
+        option = "Exit"
 
     else:
-        result = font.render("Game over :(", True, (255, 255, 255))
-        option = font2.render("Restart", True, (255, 255, 255))
-        screen.blit(result, result.get_rect(center = (450, 200)))
-        screen.blit(option, option.get_rect(center = (400, 400)))
+        result = font.render("Game over :(", True, (0, 0, 0))
+        option = "Restart"
+
+    screen.blit(result, result.get_rect(center = (450, 200)))
+    option_text = font2.render(option, True, (255, 255, 255))
+    option_box = pygame.Rect(350, 500, 200, 80)
+    pygame.draw.rect(screen, (255, 165, 0), option_box)
+    screen.blit(option_text, option_text.get_rect(center = option_box.center))
+
+    pygame.display.update()
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if option_box.collidepoint(event.pos):
+                    if outcome:
+                        pygame.quit()
+                        sys.exit()
+                    else:
+                        return
 
 
 level = draw_game_start(screen)
