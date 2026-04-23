@@ -375,7 +375,10 @@ while True:
                     current_board.selected_cell.set_cell_value(current_board.selected_cell.sketch)
                     current_board.selected_cell.set_sketched_value(0)
                     if current_board.is_full():
-                        draw_end_screen(screen)
+                        outcome = current_board.check_board()
+                        draw_end_screen(screen, outcome)
+                        level = draw_game_start(screen)
+                        current_board = Board(900, 900, screen, level)
             elif event.unicode.isdigit() and 1 <= int(event.unicode) <= 9:
                 current_board.sketch(int(event.unicode))
             elif event.key == pygame.K_UP:
