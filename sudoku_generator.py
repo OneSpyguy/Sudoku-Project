@@ -364,7 +364,6 @@ while True:
             elif exit_box.collidepoint(event.pos):
                 pygame.quit()
                 sys.exit()
-
             x, y = event.pos
             coords = current_board.click(x, y)
             if coords:
