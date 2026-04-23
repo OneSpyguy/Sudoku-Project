@@ -320,21 +320,20 @@ def draw_end_screen(screen, outcome):
     screen.fill((250, 249, 246))
     if outcome:
         result = font.render("Game won!", True, (0, 0, 0))
-        exit_text = font2.render("Exit", True, (0, 0, 0))
-        screen.blit(exit_text, exit_text.get_rect(center = (400, 400)))
-        exit_box = pygame.Rect(350, 500, 200, 80)
-        pygame.draw.rect(screen, (255, 165, 0), exit_box)
-        screen.blit(exit_text, exit_text.get_rect(center = exit_box.center))
+        option = "Exit"
 
     else:
         result = font.render("Game over :(", True, (0, 0, 0))
-        restart_text = font2.render("Restart", True, (0, 0, 0))
-        screen.blit(restart_text, restart_text.get_rect(center = (400, 400)))
-        restart_box = pygame.Rect(350, 500, 200, 80)
-        pygame.draw.rect(screen, (255, 165, 0), restart_box)
-        screen.blit(restart_text, restart_text.get_rect(center = restart_box.center))
+        option = "Restart"
 
-    screen.blit(result, result.get_rect(center=(450, 200)))
+    screen.blit(result, result.get_rect(center=(400, 400)))
+
+    text = font2.render(option, True, (0, 0, 0))
+
+    option_box = pygame.Rect(350, 500, 200, 80)
+    pygame.draw.rect(screen, (255, 165, 0), option_box)
+    screen.blit(text, text.get_rect(center = option_box.center))
+
     pygame.display.update()
 
     while True:
@@ -343,12 +342,13 @@ def draw_end_screen(screen, outcome):
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if restart_box.collidepoint(event.pos):
-                    level = draw_game_start(screen)
-                    current_board = Board(900, 900, screen, level)
-                elif exit_box.collidepoint(event.pos):
-                    pygame.quit()
-                    sys.exit()
+                if option_box.collidepoint(event.pos):
+                    if outcome:
+                        pygame.quit()
+                        sys.exit()
+                    else:
+                        return
+
 
 
 
@@ -398,6 +398,8 @@ while True:
                     if current_board.is_full():
                         outcome = current_board.check_board()
                         draw_end_screen(screen, outcome)
+
+
             elif event.unicode.isdigit() and 1 <= int(event.unicode) <= 9:
                 current_board.sketch(int(event.unicode))
             elif event.key == pygame.K_UP:
