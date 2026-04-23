@@ -283,8 +283,8 @@ def draw_game_start(screen):
     screen.fill((250, 249, 246))
     welcome = font.render("Welcome to Sudoku", True, (0,0,0))
     pick = font2.render("Select Game Mode:", True, (0, 0, 0))
-    screen.blit(welcome, welcome.get_rect(center=(450, 200)))
-    screen.blit(pick, pick.get_rect(center=(450, 400)))
+    screen.blit(welcome, welcome.get_rect(center = (450, 200)))
+    screen.blit(pick, pick.get_rect(center = (450, 400)))
 
     easy = pygame.Rect(100, 500, 200, 80)
     medium = pygame.Rect(350, 500, 200, 80)
@@ -323,11 +323,13 @@ def draw_end_screen(screen):
         option = font2.render("Exit", True, (255, 255, 255))
         screen.blit(result, result.get_rect(center = (450, 200)))
         screen.blit(option, option.get_rect(center = (400, 400)))
+
     else:
         result = font.render("Game over :(", True, (255, 255, 255))
         option = font2.render("Restart", True, (255, 255, 255))
         screen.blit(result, result.get_rect(center = (450, 200)))
         screen.blit(option, option.get_rect(center = (400, 400)))
+
 
 level = draw_game_start(screen)
 current_board = Board(900, 900, screen, level)
