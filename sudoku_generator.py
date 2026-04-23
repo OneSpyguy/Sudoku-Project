@@ -323,13 +323,11 @@ def draw_end_screen(screen):
         option = font2.render("Exit", True, (255, 255, 255))
         screen.blit(result, result.get_rect(center = (450, 200)))
         screen.blit(option, option.get_rect(center = (400, 400)))
-
     else:
         result = font.render("Game over :(", True, (255, 255, 255))
         option = font2.render("Restart", True, (255, 255, 255))
         screen.blit(result, result.get_rect(center = (450, 200)))
         screen.blit(option, option.get_rect(center = (400, 400)))
-
 
 level = draw_game_start(screen)
 current_board = Board(900, 900, screen, level)
