@@ -283,8 +283,8 @@ def draw_game_start(screen):
     screen.fill((250, 249, 246))
     welcome = font.render("Welcome to Sudoku", True, (0,0,0))
     pick = font2.render("Select Game Mode:", True, (0, 0, 0))
-    screen.blit(welcome, welcome.get_rect(center=(450, 200)))
-    screen.blit(pick, pick.get_rect(center=(450, 400)))
+    screen.blit(welcome, welcome.get_rect(center = (450, 200)))
+    screen.blit(pick, pick.get_rect(center = (450, 400)))
 
     easy = pygame.Rect(100, 500, 200, 80)
     medium = pygame.Rect(350, 500, 200, 80)
@@ -314,21 +314,42 @@ def draw_game_start(screen):
                     return "hard"
 
 
-def draw_end_screen(screen):
+def draw_end_screen(screen, outcome):
     font = pygame.font.Font(None, 80)
     font2 = pygame.font.Font(None, 60)
     screen.fill((250, 249, 246))
-    if current_board.check_board():
-        result = font.render("Game won!", True, (255, 255, 255))
-        option = font2.render("Exit", True, (255, 255, 255))
-        screen.blit(result, result.get_rect(center = (450, 200)))
-        screen.blit(option, option.get_rect(center = (400, 400)))
+    if outcome:
+        result = font.render("Game won!", True, (0, 0, 0))
+        exit_text = font2.render("Exit", True, (0, 0, 0))
+        screen.blit(exit_text, exit_text.get_rect(center = (400, 400)))
+        exit_box = pygame.Rect(350, 500, 200, 80)
+        pygame.draw.rect(screen, (255, 165, 0), exit_box)
+        screen.blit(exit_text, exit_text.get_rect(center = exit_box.center))
 
     else:
-        result = font.render("Game over :(", True, (255, 255, 255))
-        option = font2.render("Restart", True, (255, 255, 255))
-        screen.blit(result, result.get_rect(center = (450, 200)))
-        screen.blit(option, option.get_rect(center = (400, 400)))
+        result = font.render("Game over :(", True, (0, 0, 0))
+        restart_text = font2.render("Restart", True, (0, 0, 0))
+        screen.blit(restart_text, restart_text.get_rect(center = (400, 400)))
+        restart_box = pygame.Rect(350, 500, 200, 80)
+        pygame.draw.rect(screen, (255, 165, 0), restart_box)
+        screen.blit(restart_text, restart_text.get_rect(center = restart_box.center))
+
+    screen.blit(result, result.get_rect(center=(450, 200)))
+    pygame.display.update()
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if restart_box.collidepoint(event.pos):
+                    level = draw_game_start(screen)
+                    current_board = Board(900, 900, screen, level)
+                elif exit_box.collidepoint(event.pos):
+                    pygame.quit()
+                    sys.exit()
+
 
 
 level = draw_game_start(screen)
@@ -375,7 +396,8 @@ while True:
                     current_board.selected_cell.set_cell_value(current_board.selected_cell.sketch)
                     current_board.selected_cell.set_sketched_value(0)
                     if current_board.is_full():
-                        draw_end_screen(screen)
+                        outcome = current_board.check_board()
+                        draw_end_screen(screen, outcome)
             elif event.unicode.isdigit() and 1 <= int(event.unicode) <= 9:
                 current_board.sketch(int(event.unicode))
             elif event.key == pygame.K_UP:
