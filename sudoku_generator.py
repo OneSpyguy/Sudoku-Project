@@ -398,6 +398,8 @@ while True:
                     if current_board.is_full():
                         outcome = current_board.check_board()
                         draw_end_screen(screen, outcome)
+                        level = draw_game_start(screen)
+                        current_board = Board(900, 900, screen, level)
 
 
             elif event.unicode.isdigit() and 1 <= int(event.unicode) <= 9:
